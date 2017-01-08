@@ -5,9 +5,10 @@ import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
 
 import com.lonsec.service.RequestProcessor;
 
@@ -16,18 +17,22 @@ import com.lonsec.service.RequestProcessor;
  *
  */
 @SpringBootApplication
-public class App {
+@EnableAutoConfiguration
+public class App implements CommandLineRunner {
 
 	private static final Logger logger = LoggerFactory.getLogger(App.class);
-	
+
 	@Autowired
-	private  RequestProcessor processor;
-	
+	private RequestProcessor processor;
+
 	public static void main(String[] args) {
-		ApplicationContext applicationContext = SpringApplication.run(App.class, args);
-		App app = new App();
-		app.displayOptions();
+		SpringApplication.run(App.class, args);
 		logger.info("Completed");
+	}
+
+	@Override
+	public void run(String... arg0) throws Exception {
+		displayOptions();
 	}
 
 	private void displayOptions() {

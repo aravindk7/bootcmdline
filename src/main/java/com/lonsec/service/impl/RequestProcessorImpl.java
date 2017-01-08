@@ -2,6 +2,7 @@ package com.lonsec.service.impl;
 
 import java.io.File;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lonsec.service.RequestProcessor;
@@ -12,10 +13,26 @@ import com.lonsec.service.RequestProcessor;
  */
 @Service
 public class RequestProcessorImpl implements RequestProcessor {
-
+	
+	@Autowired
+	private CSVProcessor csvProcessor;
+	
 	@Override
 	public void processInputFiles(String path) {
-		// TODO Auto-generated method stub
+		File[] files = listFilesInFolder(path);
+		
+		if(files == null) {
+			return;
+		}
+		
+		for (File file : files) {
+			try {
+				csvProcessor.pareCSV(file);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 
 	}
 

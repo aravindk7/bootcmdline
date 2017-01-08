@@ -15,17 +15,17 @@ public interface FundDao {
 	/**
 	 * @param funds
 	 */
-	public void insertFunds(List<Fund> funds);
+	public int insertFunds(List<Fund> funds);
 	
 	/**
 	 * @param benchmarks
 	 */
-	public void insertBenchmarks(List<Benchmark> benchmarks);
+	public int insertBenchmarks(List<Benchmark> benchmarks);
 	
 	/**
 	 * @param returnSeries
 	 */
-	public void insertReturnSeries(List<ReturnSeries> returnSeries);
+	public int insertReturnSeries(List<ReturnSeries> returns);
 	
 	/**
 	 * 
