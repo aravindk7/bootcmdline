@@ -19,6 +19,10 @@ import com.lonsec.domain.CSVType;
 import com.lonsec.service.parser.CSVFileParser;
 import com.lonsec.service.parser.CSVFileParserFactory;
 
+/**
+ * @author Aravind
+ *
+ */
 @Component
 public class CSVProcessor {
 
@@ -39,7 +43,7 @@ public class CSVProcessor {
 		final Reader reader = new InputStreamReader(new BOMInputStream(new FileInputStream(file)));
 		final CSVParser parser = new CSVParser(reader, CSVFormat.DEFAULT.withHeader().withIgnoreEmptyLines()
 				.withIgnoreHeaderCase().withIgnoreSurroundingSpaces());
-
+		
 		try {
 			Map<String, Integer> map = parser.getHeaderMap();
 
@@ -63,6 +67,10 @@ public class CSVProcessor {
 			reader.close();
 			parser.close();
 		}
+	}
+	
+	public void writeCSV() {
+		
 	}
 
 }

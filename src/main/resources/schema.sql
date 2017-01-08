@@ -16,3 +16,8 @@ CREATE TABLE returnseries (
   Date date DEFAULT NULL,
   ReturnPerc decimal(10,6) DEFAULT NULL
 );
+
+CREATE TABLE outperformance (
+  outperformance varchar(15) DEFAULT NULL,
+  excess decimal(6,2) DEFAULT NULL
+);

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.lonsec.domain.Benchmark;
 import com.lonsec.domain.Fund;
+import com.lonsec.domain.FundPerformance;
 import com.lonsec.domain.ReturnSeries;
 
 /**
@@ -30,5 +31,5 @@ public interface FundDao {
 	/**
 	 * 
 	 */
-	public void loadMonthlyData();
+	public List<FundPerformance> loadFundPerformanceData();
 }
