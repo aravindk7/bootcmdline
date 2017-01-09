@@ -1,0 +1,3 @@
+TRUNCATE TABLE returnseries;
+TRUNCATE TABLE benchmark;
+TRUNCATE TABLE fund;

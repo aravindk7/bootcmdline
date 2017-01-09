@@ -46,7 +46,7 @@ public class App implements CommandLineRunner {
 
 			switch (option) {
 			case "1":
-				System.out.println("Option 1");
+				System.out.println("Option 1: Please input the File Path/Folder Path:");
 				String path = scanner.nextLine();
 				processor.processInputFiles(path);
 				displayOptions();
@@ -62,7 +62,7 @@ public class App implements CommandLineRunner {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("Invalid Option. Please input a ");
+			System.out.println("Invalid Option Entered. Please enter a valid Number.");
 		}
 	}
 }

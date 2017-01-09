@@ -1,10 +1,13 @@
 package com.lonsec.service.impl;
 
 import java.io.File;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.lonsec.domain.FundPerformance;
+import com.lonsec.service.FundsReturnService;
 import com.lonsec.service.RequestProcessor;
 
 /**
@@ -16,6 +19,9 @@ public class RequestProcessorImpl implements RequestProcessor {
 	
 	@Autowired
 	private CSVProcessor csvProcessor;
+	
+	@Autowired
+	private FundsReturnService fundsReturnService;
 	
 	@Override
 	public void processInputFiles(String path) {
@@ -49,8 +55,8 @@ public class RequestProcessorImpl implements RequestProcessor {
 
 	@Override
 	public void generateMonthlyReport() {
-		// TODO Auto-generated method stub
-		
+		List<FundPerformance> funds = fundsReturnService.computeReturns();
+		csvProcessor.writeCSV(funds);
 	}
 
 }

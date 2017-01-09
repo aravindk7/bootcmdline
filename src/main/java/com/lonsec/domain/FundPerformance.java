@@ -8,18 +8,20 @@ import java.util.Date;
  *
  */
 public class FundPerformance {
-	
+
 	private String fundName;
-	
+
 	private Date date;
-	
+
 	private BigDecimal fundReturn;
-	
+
 	private BigDecimal benchmarkReturn;
-	
+
 	private BigDecimal excess;
-	
+
 	private String outPerformance;
+
+	private Integer rank;
 
 	public String getFundName() {
 		return fundName;
@@ -67,5 +69,20 @@ public class FundPerformance {
 
 	public void setOutPerformance(String outPerformance) {
 		this.outPerformance = outPerformance;
+	}
+
+	public Integer getRank() {
+		return rank;
+	}
+
+	public void setRank(Integer rank) {
+		this.rank = rank;
+	}
+
+	@Override
+	public String toString() {
+		return "FundPerformance [fundName=" + fundName + ", date=" + date + ", fundReturn=" + fundReturn
+				+ ", benchmarkReturn=" + benchmarkReturn + ", excess=" + excess + ", outPerformance=" + outPerformance
+				+ ", rank=" + rank + "]";
 	}
 }
