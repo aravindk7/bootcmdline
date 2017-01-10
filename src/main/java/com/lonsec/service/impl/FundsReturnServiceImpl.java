@@ -62,15 +62,33 @@ public class FundsReturnServiceImpl implements FundsReturnService {
 		return fund;
 	};
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lonsec.service.FundsReturnService#computeReturns()
+	 */
 	@Override
 	public List<FundPerformance> computeReturns() {
 
 		List<FundPerformance> funds = fundDao.loadFundPerformanceData();
 
+		List<FundPerformance> computedFunds = enrichForReport(funds);
+
+		return computedFunds;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.lonsec.service.FundsReturnService#enrichForReport(java.util.List)
+	 */
+	public List<FundPerformance> enrichForReport(List<FundPerformance> funds) {
 		Map<Date, List<FundPerformance>> groupedByDates = funds.stream()
 				.map(excessCalculator.andThen(outPerformanceCalculator))
 				.sorted(Comparator.comparing(FundPerformance::getDate).thenComparing(FundPerformance::getFundReturn)
 						.reversed())
+				.distinct()
 				.collect(Collectors.groupingBy(FundPerformance::getDate, LinkedHashMap::new, Collectors.toList()));
 
 		List<FundPerformance> computedFunds = new ArrayList<FundPerformance>();

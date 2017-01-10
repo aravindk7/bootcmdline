@@ -19,19 +19,23 @@ import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.io.input.BOMInputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.lonsec.domain.CSVType;
+import com.lonsec.domain.Domain;
 import com.lonsec.domain.FundPerformance;
+import com.lonsec.service.CSVProcessor;
 import com.lonsec.service.parser.CSVFileParser;
 import com.lonsec.service.parser.CSVFileParserFactory;
 
 /**
+ * Class for CSV Opertaions
+ * 
  * @author Aravind
  *
  */
-@Component
-public class CSVProcessor {
+@Service
+public class CSVProcessorImpl implements CSVProcessor {
 
 	@Value("#{${csvheader.fund}}")
 	private Map<String, Integer> fundHeaders;
@@ -42,7 +46,7 @@ public class CSVProcessor {
 	@Value("#{${csvheader.returnSeries}}")
 	private Map<String, Integer> returnSeriesHeaders;
 
-	@Value("${csvheader.monthtlyReport}")
+	@Value("#{'${csvheader.monthtlyReport}'.split(',')}")
 	private List<String> csvOutputFileHeader;
 
 	@Value("${csv.fileName}")
@@ -53,16 +57,23 @@ public class CSVProcessor {
 
 	private static final String NEW_LINE_SEPARATOR = "\n";
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lonsec.service.CSVProcessor#pareCSV(java.io.File)
+	 */
+	@Override
 	public void pareCSV(File file) throws Exception {
 
 		final Reader reader = new InputStreamReader(new BOMInputStream(new FileInputStream(file)));
 		final CSVParser parser = new CSVParser(reader, CSVFormat.DEFAULT.withHeader().withIgnoreEmptyLines()
 				.withIgnoreHeaderCase().withIgnoreSurroundingSpaces());
 
+		CSVFileParser fileParser = null;
+		List<? extends Domain> values = null;
+
 		try {
 			Map<String, Integer> map = parser.getHeaderMap();
-
-			CSVFileParser fileParser = null;
 
 			if (fundHeaders.equals(map)) {
 				fileParser = parserFactory.getParser(CSVType.FUND);
@@ -76,14 +87,25 @@ public class CSVProcessor {
 
 			if (fileParser != null) {
 				List<CSVRecord> records = parser.getRecords();
-				fileParser.process(records);
+				values = fileParser.process(records);
 			}
 		} finally {
 			reader.close();
 			parser.close();
 		}
+
+		if (fileParser != null) {
+			fileParser.insert(values);
+		}
+		;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lonsec.service.CSVProcessor#writeCSV(java.util.List)
+	 */
+	@Override
 	public void writeCSV(List<FundPerformance> funds) {
 		FileWriter fileWriter = null;
 		CSVPrinter csvFilePrinter = null;

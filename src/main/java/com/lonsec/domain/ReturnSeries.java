@@ -4,16 +4,29 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
+ * Domain Model for ReturnSeries Data
+ * 
  * @author Aravind
  *
  */
-public class ReturnSeries {
-	
+public class ReturnSeries extends Domain {
+
 	private String code;
-	
+
 	private Date date;
-	
+
 	private BigDecimal returnPercent;
+
+	public ReturnSeries() {
+
+	}
+
+	public ReturnSeries(String code, Date date, BigDecimal returnPercent) {
+		super();
+		this.code = code;
+		this.date = date;
+		this.returnPercent = returnPercent;
+	}
 
 	public String getCode() {
 		return code;

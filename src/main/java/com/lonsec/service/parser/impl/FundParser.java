@@ -11,10 +11,13 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import com.lonsec.domain.Domain;
 import com.lonsec.domain.Fund;
 import com.lonsec.service.parser.CSVFileParser;
 
 /**
+ * Parser to process Fund data in CSV files.
+ * 
  * @author Aravind
  *
  */
@@ -36,13 +39,19 @@ public class FundParser extends AbstractParser implements CSVFileParser {
 	};
 
 	@Override
-	public boolean process(List<CSVRecord> records) throws Exception {
-
-		// List<Fund> funds = new ArrayList<Fund>();
+	public List<? extends Domain> process(List<CSVRecord> records) throws Exception {
 
 		List<Fund> funds = records.stream().filter(r -> r.size() == 3).map(populateFundFn)
 				.filter(f -> stringNotBlank.test(f.getFundCode())).filter(b -> stringNotBlank.test(b.getFundName()))
 				.filter(b -> stringNotBlank.test(b.getBenchmarkCode())).collect(Collectors.toList());
+
+		return funds;
+	}
+
+	@Override
+	public boolean insert(List<? extends Domain> records) throws Exception {
+		@SuppressWarnings("unchecked")
+		List<Fund> funds = (List<Fund>) records;
 
 		if (funds.size() == 0) {
 			return false;

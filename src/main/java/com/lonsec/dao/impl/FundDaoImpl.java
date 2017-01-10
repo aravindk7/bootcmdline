@@ -23,18 +23,8 @@ import com.lonsec.domain.ReturnSeries;
 @Transactional
 public class FundDaoImpl implements FundDao {
 
-	/*
-	 * private final static String SELECT_FUND = " SELECT COUNT(1) FROM FUND " +
-	 * "(FundCode, FundName, BenchMarkCode) VALUES (?, ?, ?) ";
-	 */
-
 	private final static String INSERT_FUND = " INSERT INTO FUND "
 			+ "(FundCode, FundName, BenchMarkCode) VALUES (?, ?, ?) ";
-
-	/*
-	 * private final static String SELECT_BENCHMARK = " INSERT INTO BENCHMARK "
-	 * + "(BenchMarkCode, BenchmarkName) VALUES (?, ?) ";
-	 */
 
 	private final static String INSERT_BENCHMARK = " INSERT INTO BENCHMARK "
 			+ "(BenchMarkCode, BenchmarkName) VALUES (?, ?) ";
@@ -50,6 +40,11 @@ public class FundDaoImpl implements FundDao {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lonsec.dao.FundDao#insertFunds(java.util.List)
+	 */
 	@Override
 	public int insertFunds(List<Fund> funds) {
 		int[] updatedRecords = jdbcTemplate.batchUpdate(INSERT_FUND, new BatchPreparedStatementSetter() {
@@ -72,6 +67,11 @@ public class FundDaoImpl implements FundDao {
 		return getSuccessfulInsertCount(updatedRecords);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lonsec.dao.FundDao#insertBenchmarks(java.util.List)
+	 */
 	@Override
 	public int insertBenchmarks(List<Benchmark> benchmarks) {
 		int[] updatedRecords = jdbcTemplate.batchUpdate(INSERT_BENCHMARK, new BatchPreparedStatementSetter() {
@@ -93,6 +93,11 @@ public class FundDaoImpl implements FundDao {
 		return getSuccessfulInsertCount(updatedRecords);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lonsec.dao.FundDao#insertReturnSeries(java.util.List)
+	 */
 	@Override
 	public int insertReturnSeries(List<ReturnSeries> returns) {
 		int[] updatedRecords = jdbcTemplate.batchUpdate(INSERT_RETURNSERIES, new BatchPreparedStatementSetter() {
@@ -115,6 +120,11 @@ public class FundDaoImpl implements FundDao {
 		return getSuccessfulInsertCount(updatedRecords);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lonsec.dao.FundDao#loadFundPerformanceData()
+	 */
 	@Override
 	@Transactional(readOnly = true)
 	public List<FundPerformance> loadFundPerformanceData() {
@@ -131,12 +141,14 @@ public class FundDaoImpl implements FundDao {
 			}
 
 		});
-		
+
 		return funds;
 
 	}
 
 	/**
+	 * Get the count of successful inserts
+	 * 
 	 * @param updatedRecords
 	 * @return
 	 */

@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
+ * Domain Model for FundPerformance Data
+ * 
  * @author Aravind
  *
  */
@@ -22,6 +24,18 @@ public class FundPerformance {
 	private String outPerformance;
 
 	private Integer rank;
+
+	public FundPerformance() {
+
+	}
+
+	public FundPerformance(String fundName, Date date, BigDecimal fundReturn, BigDecimal benchmarkReturn) {
+		super();
+		this.fundName = fundName;
+		this.date = date;
+		this.fundReturn = fundReturn;
+		this.benchmarkReturn = benchmarkReturn;
+	}
 
 	public String getFundName() {
 		return fundName;
@@ -84,5 +98,36 @@ public class FundPerformance {
 		return "FundPerformance [fundName=" + fundName + ", date=" + date + ", fundReturn=" + fundReturn
 				+ ", benchmarkReturn=" + benchmarkReturn + ", excess=" + excess + ", outPerformance=" + outPerformance
 				+ ", rank=" + rank + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((date == null) ? 0 : date.hashCode());
+		result = prime * result + ((fundName == null) ? 0 : fundName.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		FundPerformance other = (FundPerformance) obj;
+		if (date == null) {
+			if (other.date != null)
+				return false;
+		} else if (!date.equals(other.date))
+			return false;
+		if (fundName == null) {
+			if (other.fundName != null)
+				return false;
+		} else if (!fundName.equals(other.fundName))
+			return false;
+		return true;
 	}
 }

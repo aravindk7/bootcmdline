@@ -12,13 +12,13 @@ import org.springframework.context.annotation.Configuration;
 import com.lonsec.service.parser.CSVFileParserFactory;
 
 /**
+ * Bean Configurations
  * @author Aravind
  *
  */
 @Configuration
 public class AppConfig {
 
-	// TCP port for remote connections, default 9092
 	@Value("${h2.webPort:8082}")
 	private String h2webPort;
 
@@ -31,7 +31,6 @@ public class AppConfig {
 	}
 
 	@Bean
-	// @ConditionalOnExpression("${h2.web.enabled:true}")
 	public Server h2WebServer() throws SQLException {
 		return Server.createWebServer("-web", "-webAllowOthers", "-webPort", h2webPort).start();
 	}

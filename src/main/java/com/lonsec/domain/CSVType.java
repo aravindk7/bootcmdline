@@ -1,6 +1,8 @@
 package com.lonsec.domain;
 
 /**
+ * Enum type for Input File Types
+ * 
  * @author Aravind
  *
  */

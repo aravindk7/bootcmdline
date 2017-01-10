@@ -12,24 +12,37 @@ import com.lonsec.domain.ReturnSeries;
  *
  */
 public interface FundDao {
-	
+
 	/**
+	 * Insert the list of Funds
+	 * 
 	 * @param funds
+	 *            list of funds
+	 * @return count of successful inserts
 	 */
 	public int insertFunds(List<Fund> funds);
-	
+
 	/**
+	 * Insert the list of Benchmarks
+	 * 
 	 * @param benchmarks
+	 *            list of benchmarks
+	 * @return count of successful inserts
 	 */
 	public int insertBenchmarks(List<Benchmark> benchmarks);
-	
+
 	/**
-	 * @param returnSeries
+	 * Insert the list of ReturnSeries
+	 * 
+	 * @param returns
+	 *            list of returns
+	 * @return count of successful inserts
 	 */
 	public int insertReturnSeries(List<ReturnSeries> returns);
-	
+
 	/**
-	 * 
+	 * Load the list of Fund Data to Generate Monthly Report
+	 * @return list of FundPerformance
 	 */
 	public List<FundPerformance> loadFundPerformanceData();
 }

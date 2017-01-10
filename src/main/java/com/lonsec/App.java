@@ -13,6 +13,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.lonsec.service.RequestProcessor;
 
 /**
+ * Main Class to Run the Application
+ * 
  * @author Aravind
  *
  */
@@ -25,16 +27,27 @@ public class App implements CommandLineRunner {
 	@Autowired
 	private RequestProcessor processor;
 
+	/**
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		SpringApplication.run(App.class, args);
 		logger.info("Completed");
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.springframework.boot.CommandLineRunner#run(java.lang.String[])
+	 */
 	@Override
 	public void run(String... arg0) throws Exception {
 		displayOptions();
 	}
 
+	/**
+	 * Display Menu to User for Processing
+	 */
 	private void displayOptions() {
 		System.out.println("Enter the Option (1/2/3): ");
 		System.out.println("1 - To Process the input files");

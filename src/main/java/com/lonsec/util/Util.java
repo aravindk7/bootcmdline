@@ -9,7 +9,7 @@ import java.util.function.Predicate;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * Utility Class for generic methods
+ * Utility Class for Generic Methods
  * 
  * @author Aravind
  *
@@ -23,8 +23,14 @@ public class Util {
 	private static String FORMAT_YYYY_MM_DD = "yyyy-MM-dd";
 	private static String FORMAT_DD_MM_YYYY = "dd/MM/yyyy";
 
+	/**
+	 *  Predicate to check the String value is not blank
+	 */
 	public static Predicate<Object> nonNull = Objects::nonNull;
 
+	/**
+	 * Predicate to check the String value is not blank
+	 */
 	public static Predicate<String> stringNotBlank = StringUtils::isNotBlank;
 
 	/**

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lonsec.domain.FundPerformance;
+import com.lonsec.service.CSVProcessor;
 import com.lonsec.service.FundsReturnService;
 import com.lonsec.service.RequestProcessor;
 
@@ -16,32 +17,46 @@ import com.lonsec.service.RequestProcessor;
  */
 @Service
 public class RequestProcessorImpl implements RequestProcessor {
-	
+
 	@Autowired
 	private CSVProcessor csvProcessor;
-	
+
 	@Autowired
 	private FundsReturnService fundsReturnService;
-	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.lonsec.service.RequestProcessor#processInputFiles(java.lang.String)
+	 */
 	@Override
 	public void processInputFiles(String path) {
 		File[] files = listFilesInFolder(path);
-		
-		if(files == null) {
+
+		if (files == null) {
 			return;
 		}
-		
+
 		for (File file : files) {
 			try {
 				csvProcessor.pareCSV(file);
+
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+
 		}
 
 	}
 
+	/**
+	 * Return the list of CSV Files in the given path
+	 * 
+	 * @param path
+	 * @return
+	 */
 	public File[] listFilesInFolder(String path) {
 		File folder = new File(path);
 		if (folder.isDirectory()) {
@@ -53,6 +68,11 @@ public class RequestProcessorImpl implements RequestProcessor {
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lonsec.service.RequestProcessor#generateMonthlyReport()
+	 */
 	@Override
 	public void generateMonthlyReport() {
 		List<FundPerformance> funds = fundsReturnService.computeReturns();

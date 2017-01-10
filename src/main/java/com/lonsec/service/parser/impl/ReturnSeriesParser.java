@@ -16,16 +16,19 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import com.lonsec.domain.Domain;
 import com.lonsec.domain.ReturnSeries;
 import com.lonsec.service.parser.CSVFileParser;
 
 /**
+ * Parser to process RerturnSeries data in CSV files.
+ * 
  * @author Aravind
  *
  */
 @Service("RETURNSERIES")
 @Scope(scopeName = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class FundSeriesParser extends AbstractParser implements CSVFileParser {
+public class ReturnSeriesParser extends AbstractParser implements CSVFileParser {
 
 	private Function<CSVRecord, ReturnSeries> populateReturnSeriesFn = record -> {
 		ReturnSeries returnSeries = new ReturnSeries();
@@ -46,13 +49,19 @@ public class FundSeriesParser extends AbstractParser implements CSVFileParser {
 	};
 
 	@Override
-	public boolean process(List<CSVRecord> records) throws Exception {
-
-		// List<ReturnSeries> returns = new ArrayList<ReturnSeries>();
+	public List<? extends Domain> process(List<CSVRecord> records) throws Exception {
 
 		List<ReturnSeries> returns = records.stream().map(populateReturnSeriesFn)
 				.filter(r -> stringNotBlank.test(r.getCode())).filter(r -> nonNull.test(r.getDate()))
 				.filter(r -> nonNull.test(r.getReturnPercent())).collect(Collectors.toList());
+
+		return returns;
+	}
+
+	@Override
+	public boolean insert(List<? extends Domain> records) throws Exception {
+		@SuppressWarnings("unchecked")
+		List<ReturnSeries> returns = (List<ReturnSeries>) records;
 
 		if (returns.size() == 0) {
 			return false;
