@@ -10,7 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.lonsec.AppTest;
@@ -19,7 +18,6 @@ import com.lonsec.domain.CSVType;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = AppTest.class)
-@ContextConfiguration
 public class BenchmarkParserTest extends BaseTest {
 	
 	private List<Benchmark> benchamarks;

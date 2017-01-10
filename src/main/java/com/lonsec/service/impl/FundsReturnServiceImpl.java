@@ -94,7 +94,7 @@ public class FundsReturnServiceImpl implements FundsReturnService {
 		List<FundPerformance> computedFunds = new ArrayList<FundPerformance>();
 
 		for (Map.Entry<Date, List<FundPerformance>> entry : groupedByDates.entrySet()) {
-			System.out.println(entry.getKey());
+			//System.out.println(entry.getKey());
 			int i = 0;
 			for (FundPerformance fund : entry.getValue()) {
 				fund.setRank(++i);

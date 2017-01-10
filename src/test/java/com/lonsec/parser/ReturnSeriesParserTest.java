@@ -33,7 +33,7 @@ public class ReturnSeriesParserTest extends BaseTest {
 	 */
 	@SuppressWarnings("unchecked")
 	@Test
-	public void process() throws Exception {
+	public void processFundSeries() throws Exception {
 		List<CSVRecord> records = getCSVRecords("test/parser/FundReturnSeries.csv");
 		returns = (List<ReturnSeries>) csvFileParser.process(records);
 		assertEquals(42, returns.size());
@@ -45,8 +45,25 @@ public class ReturnSeriesParserTest extends BaseTest {
 	}
 
 	@Test
-	public void insert() throws Exception {
+	public void insertFundSeries() throws Exception {
 		csvFileParser.insert(returns);
 	}
-
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void processBenchmarkSeries() throws Exception {
+		List<CSVRecord> records = getCSVRecords("test/parser/BenchReturnSeries.csv");
+		returns = (List<ReturnSeries>) csvFileParser.process(records);
+		assertEquals(14, returns.size());
+		ReturnSeries returnSeries = returns.get(0);
+		assertEquals("BM-18", returnSeries.getCode());
+		assertEquals("31/05/2016", toDateString(returnSeries.getDate()));
+		assertEquals("1.240472701", returnSeries.getReturnPercent().toPlainString());
+		assertNotNull(returnSeries);
+	}
+	
+	@Test
+	public void insertBenchmarkSeries() throws Exception {
+		csvFileParser.insert(returns);
+	}
 }

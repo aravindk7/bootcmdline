@@ -62,10 +62,12 @@ public class App implements CommandLineRunner {
 				System.out.println("Option 1: Please input the File Path/Folder Path:");
 				String path = scanner.nextLine();
 				processor.processInputFiles(path);
+				System.out.println("Input File/Files Processed. Please Select Next Option");
 				displayOptions();
 			case "2":
 				System.out.println("Generating monthlyOutperformance.csv file..");
 				processor.generateMonthlyReport();
+				System.out.println("Report Generated..");
 			case "3":
 				System.out.println("Exiting..");
 				System.exit(0);
@@ -75,7 +77,7 @@ public class App implements CommandLineRunner {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("Invalid Option Entered. Please enter a valid Number.");
+			System.out.println("Unknown Error Occured!! Please Try Again.");
 		}
 	}
 }

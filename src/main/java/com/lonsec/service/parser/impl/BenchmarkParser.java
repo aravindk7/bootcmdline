@@ -52,7 +52,7 @@ public class BenchmarkParser extends AbstractParser implements CSVFileParser {
 		@SuppressWarnings("unchecked")
 		List<Benchmark> benchmarks = (List<Benchmark>) records;
 
-		if (benchmarks.size() == 0) {
+		if (benchmarks == null || benchmarks.size() == 0) {
 			return false;
 		}
 

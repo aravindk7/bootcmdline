@@ -30,7 +30,7 @@ public class FundParserTest extends BaseTest {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void process() throws Exception {
-		List<CSVRecord> records = getCSVRecords("test/parser/benchmark.csv");
+		List<CSVRecord> records = getCSVRecords("test/parser/fund.csv");
 		funds = (List<Fund>) csvFileParser.process(records);
 		assertEquals(6, funds.size());
 		Fund fund = funds.get(0);

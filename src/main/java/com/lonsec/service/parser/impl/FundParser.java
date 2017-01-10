@@ -53,7 +53,7 @@ public class FundParser extends AbstractParser implements CSVFileParser {
 		@SuppressWarnings("unchecked")
 		List<Fund> funds = (List<Fund>) records;
 
-		if (funds.size() == 0) {
+		if (funds == null || funds.size() == 0) {
 			return false;
 		}
 

@@ -63,7 +63,7 @@ public class ReturnSeriesParser extends AbstractParser implements CSVFileParser 
 		@SuppressWarnings("unchecked")
 		List<ReturnSeries> returns = (List<ReturnSeries>) records;
 
-		if (returns.size() == 0) {
+		if (returns == null || returns.size() == 0) {
 			return false;
 		}
 
