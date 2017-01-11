@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.lonsec.domain.FundPerformance;
 import com.lonsec.service.CSVProcessor;
-import com.lonsec.service.FundsReturnService;
+import com.lonsec.service.FundsReportService;
 import com.lonsec.service.RequestProcessor;
 
 /**
@@ -22,7 +22,7 @@ public class RequestProcessorImpl implements RequestProcessor {
 	private CSVProcessor csvProcessor;
 
 	@Autowired
-	private FundsReturnService fundsReturnService;
+	private FundsReportService fundsReportService;
 
 	/*
 	 * (non-Javadoc)
@@ -75,7 +75,7 @@ public class RequestProcessorImpl implements RequestProcessor {
 	 */
 	@Override
 	public void generateMonthlyReport() {
-		List<FundPerformance> funds = fundsReturnService.computeReturns();
+		List<FundPerformance> funds = fundsReportService.computeReturns();
 		csvProcessor.writeCSV(funds);
 	}
 

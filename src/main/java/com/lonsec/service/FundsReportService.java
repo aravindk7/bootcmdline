@@ -10,7 +10,7 @@ import com.lonsec.domain.FundPerformance;
  * @author Aravind
  *
  */
-public interface FundsReturnService {
+public interface FundsReportService {
 
 	/**
 	 * Compute the Domain model for Reports
@@ -19,11 +19,4 @@ public interface FundsReturnService {
 	 */
 	public List<FundPerformance> computeReturns();
 
-	/**
-	 * Enrich the data for Report and populate columns based on business rules
-	 * 
-	 * @param funds
-	 * @return
-	 */
-	public List<FundPerformance> enrichForReport(List<FundPerformance> funds);
 }

@@ -16,14 +16,14 @@ import org.springframework.stereotype.Service;
 
 import com.lonsec.dao.FundDao;
 import com.lonsec.domain.FundPerformance;
-import com.lonsec.service.FundsReturnService;
+import com.lonsec.service.FundsReportService;
 
 /**
  * @author Aravind
  *
  */
 @Service
-public class FundsReturnServiceImpl implements FundsReturnService {
+public class FundsReportServiceImpl implements FundsReportService {
 
 	@Autowired
 	private FundDao fundDao;
@@ -40,14 +40,17 @@ public class FundsReturnServiceImpl implements FundsReturnService {
 	@Value("${greaterthan.outPerformanceText}")
 	private String greaterThanText;
 
-	private Function<FundPerformance, FundPerformance> excessCalculator = fund -> {
+	@Value("${default.outPerformanceText}")
+	private String defaultText;
+
+	public Function<FundPerformance, FundPerformance> excessCalculator = fund -> {
 		BigDecimal excess = fund.getFundReturn().subtract(fund.getBenchmarkReturn());
 		excess = excess.setScale(2, BigDecimal.ROUND_HALF_DOWN);
 		fund.setExcess(excess);
 		return fund;
 	};
 
-	private Function<FundPerformance, FundPerformance> outPerformanceCalculator = fund -> {
+	public Function<FundPerformance, FundPerformance> outPerformanceCalculator = fund -> {
 
 		BigDecimal excess = fund.getExcess();
 		int lessthan = excess.compareTo(lessThanValue);
@@ -55,9 +58,10 @@ public class FundsReturnServiceImpl implements FundsReturnService {
 
 		if (lessthan < 0 && greaterthan < 0) {
 			fund.setOutPerformance(lessThanText);
-		}
-		if (lessthan > 0 && greaterthan > 0) {
+		} else if (lessthan > 0 && greaterthan > 0) {
 			fund.setOutPerformance(greaterThanText);
+		} else {
+			fund.setOutPerformance(defaultText);
 		}
 		return fund;
 	};
@@ -65,25 +69,31 @@ public class FundsReturnServiceImpl implements FundsReturnService {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lonsec.service.FundsReturnService#computeReturns()
+	 * @see com.lonsec.service.FundsReportService#computeReturns()
 	 */
 	@Override
 	public List<FundPerformance> computeReturns() {
 
 		List<FundPerformance> funds = fundDao.loadFundPerformanceData();
 
-		List<FundPerformance> computedFunds = enrichForReport(funds);
+		if (funds == null || funds.size() == 0) {
+			return null;
+		}
+
+		Map<Date, List<FundPerformance>> groupedByDates = enrichForReport(funds);
+
+		List<FundPerformance> computedFunds = computeRank(groupedByDates);
 
 		return computedFunds;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Compute the missing fields by applying business logic
 	 * 
-	 * @see
-	 * com.lonsec.service.FundsReturnService#enrichForReport(java.util.List)
+	 * @param funds
+	 * @return
 	 */
-	public List<FundPerformance> enrichForReport(List<FundPerformance> funds) {
+	public Map<Date, List<FundPerformance>> enrichForReport(List<FundPerformance> funds) {
 		Map<Date, List<FundPerformance>> groupedByDates = funds.stream()
 				.map(excessCalculator.andThen(outPerformanceCalculator))
 				.sorted(Comparator.comparing(FundPerformance::getDate).thenComparing(FundPerformance::getFundReturn)
@@ -91,10 +101,20 @@ public class FundsReturnServiceImpl implements FundsReturnService {
 				.distinct()
 				.collect(Collectors.groupingBy(FundPerformance::getDate, LinkedHashMap::new, Collectors.toList()));
 
+		return groupedByDates;
+	}
+
+	/**
+	 * Set Rank property in the sorted funds
+	 * 
+	 * @param groupedByDates
+	 * @return
+	 */
+	public List<FundPerformance> computeRank(Map<Date, List<FundPerformance>> groupedByDates) {
 		List<FundPerformance> computedFunds = new ArrayList<FundPerformance>();
 
 		for (Map.Entry<Date, List<FundPerformance>> entry : groupedByDates.entrySet()) {
-			//System.out.println(entry.getKey());
+			// System.out.println(entry.getKey());
 			int i = 0;
 			for (FundPerformance fund : entry.getValue()) {
 				fund.setRank(++i);

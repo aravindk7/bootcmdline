@@ -11,6 +11,8 @@ import java.util.Date;
  */
 public class FundPerformance {
 
+	private String fundCode;
+
 	private String fundName;
 
 	private Date date;
@@ -29,12 +31,22 @@ public class FundPerformance {
 
 	}
 
-	public FundPerformance(String fundName, Date date, BigDecimal fundReturn, BigDecimal benchmarkReturn) {
+	public FundPerformance(String fundCode, String fundName, Date date, BigDecimal fundReturn,
+			BigDecimal benchmarkReturn) {
 		super();
+		this.fundCode = fundCode;
 		this.fundName = fundName;
 		this.date = date;
 		this.fundReturn = fundReturn;
 		this.benchmarkReturn = benchmarkReturn;
+	}
+
+	public String getFundCode() {
+		return fundCode;
+	}
+
+	public void setFundCode(String fundCode) {
+		this.fundCode = fundCode;
 	}
 
 	public String getFundName() {
@@ -105,7 +117,7 @@ public class FundPerformance {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
-		result = prime * result + ((fundName == null) ? 0 : fundName.hashCode());
+		result = prime * result + ((fundCode == null) ? 0 : fundCode.hashCode());
 		return result;
 	}
 
@@ -123,11 +135,12 @@ public class FundPerformance {
 				return false;
 		} else if (!date.equals(other.date))
 			return false;
-		if (fundName == null) {
-			if (other.fundName != null)
+		if (fundCode == null) {
+			if (other.fundCode != null)
 				return false;
-		} else if (!fundName.equals(other.fundName))
+		} else if (!fundCode.equals(other.fundCode))
 			return false;
 		return true;
 	}
+
 }

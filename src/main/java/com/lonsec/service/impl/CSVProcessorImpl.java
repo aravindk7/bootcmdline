@@ -115,16 +115,17 @@ public class CSVProcessorImpl implements CSVProcessor {
 			fileWriter = new FileWriter(fileName);
 			csvFilePrinter = new CSVPrinter(fileWriter, csvFileFormat);
 			csvFilePrinter.printRecord(csvOutputFileHeader);
-
-			for (FundPerformance fund : funds) {
-				List<String> record = new ArrayList<String>();
-				record.add(fund.getFundName());
-				record.add(toDateString(fund.getDate()));
-				record.add(fund.getExcess().toPlainString());
-				record.add(fund.getOutPerformance());
-				record.add(fund.getFundReturn().toPlainString());
-				record.add(fund.getRank().toString());
-				csvFilePrinter.printRecord(record);
+			if (funds != null && funds.size() > 0) {
+				for (FundPerformance fund : funds) {
+					List<String> record = new ArrayList<String>();
+					record.add(fund.getFundName());
+					record.add(toDateString(fund.getDate()));
+					record.add(fund.getExcess().toPlainString());
+					record.add(fund.getOutPerformance());
+					record.add(fund.getFundReturn().toPlainString());
+					record.add(fund.getRank().toString());
+					csvFilePrinter.printRecord(record);
+				}
 			}
 		} catch (Exception e) {
 			System.out.println("Error in CsvFileWriter !!!");

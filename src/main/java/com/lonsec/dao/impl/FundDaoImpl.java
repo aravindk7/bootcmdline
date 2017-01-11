@@ -32,7 +32,7 @@ public class FundDaoImpl implements FundDao {
 	private final static String INSERT_RETURNSERIES = " INSERT INTO RETURNSERIES "
 			+ "(code, Date, ReturnPerc) VALUES (?, ?, ?) ";
 
-	private final static String SELECT_FUNDS_DATA = "SELECT  F.FUNDNAME AS FUNDNAME, FR.DATE AS DATE, "
+	private final static String SELECT_FUNDS_DATA = "SELECT  F.FUNDCODE AS FUNDCODE, F.FUNDNAME AS FUNDNAME, FR.DATE AS DATE, "
 			+ " FR.RETURNPERC AS FUNDRETURN, BR.RETURNPERC AS BENCHMARKRETURN " + " FROM RETURNSERIES FR JOIN FUND F "
 			+ " ON F.FUNDCODE = FR.CODE " + " LEFT OUTER JOIN RETURNSERIES BR " + " ON F.BENCHMARKCODE = BR.CODE "
 			+ " AND FR.DATE = BR.DATE " + " ORDER BY FR.DATE DESC, FR.RETURNPERC  DESC ";
@@ -133,6 +133,7 @@ public class FundDaoImpl implements FundDao {
 			@Override
 			public FundPerformance mapRow(ResultSet rs, int rowNum) throws SQLException {
 				FundPerformance FundPerformance = new FundPerformance();
+				FundPerformance.setFundCode(rs.getString("FUNDCODE"));
 				FundPerformance.setFundName(rs.getString("FUNDNAME"));
 				FundPerformance.setDate(new Date(rs.getDate("DATE").getTime()));
 				FundPerformance.setFundReturn(rs.getBigDecimal("FUNDRETURN"));
