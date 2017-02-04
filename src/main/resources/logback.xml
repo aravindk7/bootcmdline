@@ -15,7 +15,7 @@
     </encoder>
   </appender>
   
-  <logger name="com.lonsec" level="INFO" additivity="false">
+  <logger name="com.sample" level="INFO" additivity="false">
     <appender-ref ref="FILE" />
   </logger>
 
